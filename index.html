@@ -61,7 +61,7 @@
             Software <span class="text-primary">Engineer</span>
           </h3>
           <p class="text-base lg:text-lg text-gray-300 leading-relaxed mb-8">
-            I'm a software engineer who builds full-stack applications and APIs. My main focus is Ruby on Rails for backend development, where I've built scalable web applications and RESTful APIs. I also work with Python for data processing and automation tasks, and I'm experienced with the MERN stack (MongoDB, Express, React, Node.js) for building modern single-page applications. I write clean, maintainable code and enjoy solving complex problems with efficient solutions.
+            I'm an experienced Ruby on Rails developer with a strong foundation in single-page applications. My work style combines remote collaboration with product managers and software architects to deliver efficient solutions. I adhere to the Rails doctrine championed by David Heinemeier Hansson (DHH) and continuously seek knowledge through reading—especially from thought leaders like Robert C. Martin. I also work with Python for data processing and automation tasks, and I'm experienced with the MERN stack (MongoDB, Express, React, Node.js) for building modern applications. I write clean, maintainable code and enjoy solving complex problems with efficient solutions.
           </p>
           <div class="flex flex-col sm:flex-row gap-4">
             <a
@@ -257,27 +257,11 @@
       </div>
 
       <div class="relative max-w-5xl mx-auto">
-        <button
-          class="carousel-btn absolute left-0 top-1/2 -translate-y-1/2 -translate-x-12 lg:-translate-x-16 z-10 bg-primary text-white w-12 h-12 lg:w-14 lg:h-14 rounded-full flex items-center justify-center hover:bg-primary/90 transition-all duration-300 shadow-lg shadow-primary/50"
-          id="prevBtn"
-          aria-label="Previous project"
-        >
-          <i class="fa-solid fa-chevron-left"></i>
-        </button>
-
         <div class="carousel-container overflow-hidden rounded-2xl">
           <div class="carousel-track flex transition-transform duration-500 ease-in-out" id="carouselTrack">
             <!-- Projects will be dynamically inserted here -->
           </div>
         </div>
-
-        <button
-          class="carousel-btn absolute right-0 top-1/2 -translate-y-1/2 translate-x-12 lg:translate-x-16 z-10 bg-primary text-white w-12 h-12 lg:w-14 lg:h-14 rounded-full flex items-center justify-center hover:bg-primary/90 transition-all duration-300 shadow-lg shadow-primary/50"
-          id="nextBtn"
-          aria-label="Next project"
-        >
-          <i class="fa-solid fa-chevron-right"></i>
-        </button>
       </div>
 
       <div class="flex justify-center gap-3 mt-8" id="carouselIndicators">
@@ -286,7 +270,121 @@
     </div>
   </section>
 
-  <!-- Project Modal -->
+  <!-- Good Reads Section -->
+  <section class="py-24 lg:py-32 bg-dark" id="resources">
+    <div class="max-w-7xl mx-auto px-8 lg:px-16">
+      <div class="text-center mb-16">
+        <h2 class="text-5xl lg:text-7xl font-bold text-white mb-4">Good Reads</h2>
+        <p class="text-gray-300 text-lg max-w-2xl mx-auto">Resources and learning materials I find valuable</p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <a
+          href="https://www.dailydoseofds.com/"
+          target="_blank"
+          class="bg-gray rounded-2xl p-6 hover:transform hover:scale-105 transition-all duration-300 shadow-xl group"
+        >
+          <div class="flex items-start gap-4">
+            <div class="flex-shrink-0 w-12 h-12 bg-primary/20 rounded-lg flex items-center justify-center group-hover:bg-primary transition-colors duration-300">
+              <i class="fa-solid fa-book text-primary group-hover:text-white text-xl"></i>
+            </div>
+            <div class="flex-1">
+              <h3 class="text-xl font-semibold text-white mb-2 group-hover:text-primary transition-colors duration-300">Daily Dose of Data Science</h3>
+              <p class="text-gray-400 text-sm">Full-stack AI engineering resources and insights</p>
+            </div>
+            <i class="fa-solid fa-external-link text-gray-500 group-hover:text-primary transition-colors duration-300"></i>
+          </div>
+        </a>
+
+        <a
+          href="https://platform.openai.com/docs/guides/prompt-optimizer"
+          target="_blank"
+          class="bg-gray rounded-2xl p-6 hover:transform hover:scale-105 transition-all duration-300 shadow-xl group"
+        >
+          <div class="flex items-start gap-4">
+            <div class="flex-shrink-0 w-12 h-12 bg-primary/20 rounded-lg flex items-center justify-center group-hover:bg-primary transition-colors duration-300">
+              <i class="fa-solid fa-wand-magic-sparkles text-primary group-hover:text-white text-xl"></i>
+            </div>
+            <div class="flex-1">
+              <h3 class="text-xl font-semibold text-white mb-2 group-hover:text-primary transition-colors duration-300">OpenAI Prompt Optimizer</h3>
+              <p class="text-gray-400 text-sm">Guide to optimizing prompts for better AI responses</p>
+            </div>
+            <i class="fa-solid fa-external-link text-gray-500 group-hover:text-primary transition-colors duration-300"></i>
+          </div>
+        </a>
+
+        <a
+          href="https://www.youtube.com/watch?v=9Wg6tiaar9M&t=347s"
+          target="_blank"
+          class="bg-gray rounded-2xl p-6 hover:transform hover:scale-105 transition-all duration-300 shadow-xl group"
+        >
+          <div class="flex items-start gap-4">
+            <div class="flex-shrink-0 w-12 h-12 bg-primary/20 rounded-lg flex items-center justify-center group-hover:bg-primary transition-colors duration-300">
+              <i class="fa-brands fa-youtube text-primary group-hover:text-white text-xl"></i>
+            </div>
+            <div class="flex-1">
+              <h3 class="text-xl font-semibold text-white mb-2 group-hover:text-primary transition-colors duration-300">YouTube Tutorial</h3>
+              <p class="text-gray-400 text-sm">MongoDB exploit</p>
+            </div>
+            <i class="fa-solid fa-external-link text-gray-500 group-hover:text-primary transition-colors duration-300"></i>
+          </div>
+        </a>
+
+        <a
+          href="https://academy.langchain.com/collections/quickstart"
+          target="_blank"
+          class="bg-gray rounded-2xl p-6 hover:transform hover:scale-105 transition-all duration-300 shadow-xl group"
+        >
+          <div class="flex items-start gap-4">
+            <div class="flex-shrink-0 w-12 h-12 bg-primary/20 rounded-lg flex items-center justify-center group-hover:bg-primary transition-colors duration-300">
+              <i class="fa-solid fa-graduation-cap text-primary group-hover:text-white text-xl"></i>
+            </div>
+            <div class="flex-1">
+              <h3 class="text-xl font-semibold text-white mb-2 group-hover:text-primary transition-colors duration-300">LangChain Academy</h3>
+              <p class="text-gray-400 text-sm">Quickstart courses for LangChain and LangGraph</p>
+            </div>
+            <i class="fa-solid fa-external-link text-gray-500 group-hover:text-primary transition-colors duration-300"></i>
+          </div>
+        </a>
+
+        <a
+          href="https://skillbuilder.aws/"
+          target="_blank"
+          class="bg-gray rounded-2xl p-6 hover:transform hover:scale-105 transition-all duration-300 shadow-xl group"
+        >
+          <div class="flex items-start gap-4">
+            <div class="flex-shrink-0 w-12 h-12 bg-primary/20 rounded-lg flex items-center justify-center group-hover:bg-primary transition-colors duration-300">
+              <i class="fa-brands fa-aws text-primary group-hover:text-white text-xl"></i>
+            </div>
+            <div class="flex-1">
+              <h3 class="text-xl font-semibold text-white mb-2 group-hover:text-primary transition-colors duration-300">AWS Skill Builder</h3>
+              <p class="text-gray-400 text-sm">AWS training and certification resources</p>
+            </div>
+            <i class="fa-solid fa-external-link text-gray-500 group-hover:text-primary transition-colors duration-300"></i>
+          </div>
+        </a>
+
+        <a
+          href="https://platform.openai.com/docs/guides/evals"
+          target="_blank"
+          class="bg-gray rounded-2xl p-6 hover:transform hover:scale-105 transition-all duration-300 shadow-xl group"
+        >
+          <div class="flex items-start gap-4">
+            <div class="flex-shrink-0 w-12 h-12 bg-primary/20 rounded-lg flex items-center justify-center group-hover:bg-primary transition-colors duration-300">
+              <i class="fa-solid fa-chart-line text-primary group-hover:text-white text-xl"></i>
+            </div>
+            <div class="flex-1">
+              <h3 class="text-xl font-semibold text-white mb-2 group-hover:text-primary transition-colors duration-300">OpenAI Evals</h3>
+              <p class="text-gray-400 text-sm">Guide to evaluating and testing AI models</p>
+            </div>
+            <i class="fa-solid fa-external-link text-gray-500 group-hover:text-primary transition-colors duration-300"></i>
+          </div>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Project Modal -->ideo
   <div id="projectModal" class="fixed inset-0 z-50 hidden items-center justify-center bg-black/80 backdrop-blur-sm">
     <div class="relative w-full max-w-4xl mx-4 max-h-[90vh] overflow-y-auto bg-dark rounded-2xl shadow-2xl">
       <!-- Close Button -->

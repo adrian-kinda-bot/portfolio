@@ -5,6 +5,7 @@ const projects = [
     description:
       "A document intelligence application that allows users to upload documents and interact with them through an AI-powered chatbot. The app processes and embeds documents, enabling users to ask questions and get contextual answers based on the uploaded content.",
     image: "images/docu_sense.png",
+    images: ["images/docu_sense.png", "images/docu_sends_sidekiq.png"],
     technologies: ["Ruby on Rails", "Sidekiq", "Redis", "PostgreSQL", "OpenAI"],
     liveUrl: "#",
     githubUrl: "https://github.com/adrian-kinda-bot/docu_sense",
@@ -15,8 +16,6 @@ const projects = [
 let currentIndex = 0;
 const carouselTrack = document.getElementById("carouselTrack");
 const carouselIndicators = document.getElementById("carouselIndicators");
-const prevBtn = document.getElementById("prevBtn");
-const nextBtn = document.getElementById("nextBtn");
 
 // Initialize carousel
 function initCarousel() {
@@ -30,7 +29,7 @@ function initCarousel() {
   carouselTrack.innerHTML = projects
     .map(
       (project, index) => `
-    <div class="project-card min-w-full ${
+    <div class="project-card min-w-full cursor-pointer ${
       index === 0 ? "active" : ""
     }" data-index="${index}">
       <div class="relative w-full aspect-video overflow-hidden rounded-t-2xl bg-gray-800">
@@ -48,15 +47,12 @@ function initCarousel() {
             `
                 : ""
             }
-            ${
-              project.githubUrl !== "#"
-                ? `
-              <a href="${project.githubUrl}" target="_blank" class="project-link bg-primary text-white px-6 py-3 rounded-full font-semibold flex items-center gap-2 hover:scale-110 transition-transform duration-300 shadow-lg">
-                <i class="fa-brands fa-github"></i> GitHub
-              </a>
-            `
-                : ""
-            }
+            <button
+              class="project-link bg-primary text-white px-6 py-3 rounded-full font-semibold flex items-center gap-2 hover:scale-110 transition-transform duration-300 shadow-lg view-project-btn"
+              data-index="${index}"
+            >
+              <i class="fa-solid fa-eye"></i> See More
+            </button>
           </div>
         </div>
       </div>
@@ -100,6 +96,27 @@ function initCarousel() {
   // Add event listeners to indicators
   document.querySelectorAll(".indicator").forEach((indicator, index) => {
     indicator.addEventListener("click", () => goToSlide(index));
+  });
+
+  // Add click event listeners to project cards to open modal
+  document.querySelectorAll(".project-card").forEach((card) => {
+    card.addEventListener("click", (e) => {
+      // Don't open modal if clicking on links or buttons
+      if (e.target.closest("a") || e.target.closest("button")) {
+        return;
+      }
+      const projectIndex = parseInt(card.getAttribute("data-index"));
+      openModal(projectIndex);
+    });
+  });
+
+  // Add click event listeners to "See More" buttons
+  document.querySelectorAll(".view-project-btn").forEach((btn) => {
+    btn.addEventListener("click", (e) => {
+      e.stopPropagation(); // Prevent card click event
+      const projectIndex = parseInt(btn.getAttribute("data-index"));
+      openModal(projectIndex);
+    });
   });
 
   // Update carousel width
@@ -158,10 +175,6 @@ function prevSlide() {
   goToSlide(currentIndex);
 }
 
-// Event listeners
-prevBtn.addEventListener("click", prevSlide);
-nextBtn.addEventListener("click", nextSlide);
-
 // Auto-play carousel (optional - can be disabled)
 let autoPlayInterval;
 function startAutoPlay() {
@@ -204,17 +217,42 @@ function openModal(projectIndex) {
   const project = projects[projectIndex];
   if (!project) return;
 
+  // Store current project index for modal carousel
+  currentModalProjectIndex = projectIndex;
+
   // Stop carousel auto-play when modal opens
   stopAutoPlay();
+
+  // Get images array or use single image
+  const projectImages = project.images || [project.image];
 
   // Populate modal content
   modalContent.innerHTML = `
     <div class="space-y-6">
-      <!-- Project Image -->
-      <div class="relative w-full h-64 lg:h-80 rounded-xl overflow-hidden">
-        <img src="${project.image}" alt="${
-    project.title
-  }" class="w-full h-full object-cover" />
+      <!-- Project Images Carousel -->
+      <div class="relative">
+        <div class="modal-carousel-container overflow-hidden rounded-xl bg-gray-900 border border-gray-700" id="modalCarouselContainer">
+          <div class="flex transition-transform duration-500 ease-in-out" id="modalCarouselTrack" style="transform: translateX(0px);">
+            ${projectImages.map((img, idx) => `
+              <div class="min-w-full flex items-center justify-center p-4 lg:p-8">
+                <img src="${img}" alt="${project.title} - Image ${idx + 1}" class="max-w-full max-h-[500px] lg:max-h-[600px] object-contain rounded-lg shadow-2xl" />
+              </div>
+            `).join('')}
+          </div>
+        </div>
+        ${projectImages.length > 1 ? `
+          <button class="modal-carousel-btn absolute left-4 top-1/2 -translate-y-1/2 bg-primary/80 hover:bg-primary text-white w-10 h-10 rounded-full flex items-center justify-center transition-all duration-300 shadow-lg z-10" id="modalPrevBtn">
+            <i class="fa-solid fa-chevron-left"></i>
+          </button>
+          <button class="modal-carousel-btn absolute right-4 top-1/2 -translate-y-1/2 bg-primary/80 hover:bg-primary text-white w-10 h-10 rounded-full flex items-center justify-center transition-all duration-300 shadow-lg z-10" id="modalNextBtn">
+            <i class="fa-solid fa-chevron-right"></i>
+          </button>
+          <div class="flex justify-center gap-2 mt-4" id="modalIndicators">
+            ${projectImages.map((_, idx) => `
+              <button class="modal-indicator w-2 h-2 rounded-full ${idx === 0 ? 'bg-primary' : 'bg-gray-500'}" data-index="${idx}"></button>
+            `).join('')}
+          </div>
+        ` : ''}
       </div>
 
       <!-- Project Title -->
@@ -279,6 +317,80 @@ function openModal(projectIndex) {
   projectModal.classList.remove("hidden");
   projectModal.classList.add("flex");
   document.body.style.overflow = "hidden"; // Prevent background scrolling
+
+  // Initialize modal carousel if multiple images
+  if (projectImages.length > 1) {
+    // Small delay to ensure DOM is rendered
+    setTimeout(() => {
+      initModalCarousel();
+    }, 100);
+  }
+}
+
+// Modal carousel functionality
+let modalImageIndex = 0;
+let currentModalProjectIndex = 0;
+
+function initModalCarousel() {
+  const modalCarouselTrack = document.getElementById("modalCarouselTrack");
+  const modalPrevBtn = document.getElementById("modalPrevBtn");
+  const modalNextBtn = document.getElementById("modalNextBtn");
+  const modalIndicators = document.querySelectorAll(".modal-indicator");
+
+  if (!modalCarouselTrack) return;
+
+  const project = projects[currentModalProjectIndex];
+  const projectImages = project?.images || [project?.image] || [];
+
+  function updateModalCarousel() {
+    const imageWidth = modalCarouselTrack.querySelector("div").offsetWidth;
+    modalCarouselTrack.style.width = `${projectImages.length * imageWidth}px`;
+    const offset = -modalImageIndex * imageWidth;
+    modalCarouselTrack.style.transform = `translateX(${offset}px)`;
+
+    // Update indicators
+    modalIndicators.forEach((indicator, i) => {
+      if (i === modalImageIndex) {
+        indicator.classList.remove("bg-gray-500");
+        indicator.classList.add("bg-primary");
+      } else {
+        indicator.classList.remove("bg-primary");
+        indicator.classList.add("bg-gray-500");
+      }
+    });
+  }
+
+  if (modalPrevBtn) {
+    // Remove old listeners by cloning
+    const newPrevBtn = modalPrevBtn.cloneNode(true);
+    modalPrevBtn.parentNode.replaceChild(newPrevBtn, modalPrevBtn);
+    newPrevBtn.addEventListener("click", () => {
+      modalImageIndex = (modalImageIndex - 1 + projectImages.length) % projectImages.length;
+      updateModalCarousel();
+    });
+  }
+
+  if (modalNextBtn) {
+    // Remove old listeners by cloning
+    const newNextBtn = modalNextBtn.cloneNode(true);
+    modalNextBtn.parentNode.replaceChild(newNextBtn, modalNextBtn);
+    newNextBtn.addEventListener("click", () => {
+      modalImageIndex = (modalImageIndex + 1) % projectImages.length;
+      updateModalCarousel();
+    });
+  }
+
+  // Indicator clicks
+  modalIndicators.forEach((indicator, index) => {
+    indicator.addEventListener("click", () => {
+      modalImageIndex = index;
+      updateModalCarousel();
+    });
+  });
+
+  // Reset to first image when modal opens
+  modalImageIndex = 0;
+  updateModalCarousel();
 }
 
 function closeModal() {
@@ -308,7 +420,7 @@ document.addEventListener("keydown", (e) => {
 // Initialize on page load
 document.addEventListener("DOMContentLoaded", () => {
   initCarousel();
-  startAutoPlay();
+  // Auto-play disabled since cards are now clickable
 
   // Handle window resize
   let resizeTimeout;
