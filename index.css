@@ -62,6 +62,16 @@ html {
   scroll-behavior: smooth;
 }
 
+/* Technology icon styling */
+.tech-icon {
+  filter: brightness(0) saturate(100%) invert(27%) sepia(95%) saturate(7151%) hue-rotate(337deg) brightness(101%) contrast(101%);
+  transition: filter 0.3s ease;
+}
+
+.group:hover .tech-icon {
+  filter: brightness(0) saturate(100%) invert(100%);
+}
+
 /* Modal carousel styling */
 .modal-carousel-container {
   min-height: 400px;
