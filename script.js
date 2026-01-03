@@ -37,18 +37,18 @@ function initCarousel() {
         project.title
       }" class="w-full h-full object-contain transition-transform duration-500" />
         <div class="project-overlay absolute inset-0 bg-black/70 flex items-center justify-center opacity-0 transition-opacity duration-300">
-          <div class="flex flex-col md:flex-row gap-4">
+          <div class="flex flex-col md:flex-row gap-4 items-center justify-center w-full px-4">
             ${
               project.liveUrl !== "#"
                 ? `
-              <a href="${project.liveUrl}" target="_blank" class="project-link bg-primary text-white px-6 py-3 rounded-full font-semibold flex items-center gap-2 hover:scale-110 transition-transform duration-300 shadow-lg">
+              <a href="${project.liveUrl}" target="_blank" class="project-link bg-primary text-white px-6 py-3 rounded-full font-semibold flex items-center justify-center gap-2 hover:scale-110 transition-transform duration-300 shadow-lg w-full md:w-auto">
                 <i class="fa-solid fa-external-link"></i> Live Demo
               </a>
             `
                 : ""
             }
             <button
-              class="project-link bg-primary text-white px-6 py-3 rounded-full font-semibold flex items-center gap-2 hover:scale-110 transition-transform duration-300 shadow-lg view-project-btn"
+              class="project-link bg-primary text-white px-6 py-3 rounded-full font-semibold flex items-center justify-center gap-2 hover:scale-110 transition-transform duration-300 shadow-lg view-project-btn w-full md:w-auto"
               data-index="${index}"
             >
               <i class="fa-solid fa-eye"></i> See More
@@ -233,14 +233,22 @@ function openModal(projectIndex) {
       <div class="relative">
         <div class="modal-carousel-container overflow-hidden rounded-xl bg-gray-900 border border-gray-700" id="modalCarouselContainer">
           <div class="flex transition-transform duration-500 ease-in-out" id="modalCarouselTrack" style="transform: translateX(0px);">
-            ${projectImages.map((img, idx) => `
+            ${projectImages
+              .map(
+                (img, idx) => `
               <div class="min-w-full flex items-center justify-center p-4 lg:p-8">
-                <img src="${img}" alt="${project.title} - Image ${idx + 1}" class="max-w-full max-h-[500px] lg:max-h-[600px] object-contain rounded-lg shadow-2xl" />
+                <img src="${img}" alt="${project.title} - Image ${
+                  idx + 1
+                }" class="max-w-full max-h-[500px] lg:max-h-[600px] object-contain rounded-lg shadow-2xl" />
               </div>
-            `).join('')}
+            `
+              )
+              .join("")}
           </div>
         </div>
-        ${projectImages.length > 1 ? `
+        ${
+          projectImages.length > 1
+            ? `
           <button class="modal-carousel-btn absolute left-4 top-1/2 -translate-y-1/2 bg-primary/80 hover:bg-primary text-white w-10 h-10 rounded-full flex items-center justify-center transition-all duration-300 shadow-lg z-10" id="modalPrevBtn">
             <i class="fa-solid fa-chevron-left"></i>
           </button>
@@ -248,11 +256,19 @@ function openModal(projectIndex) {
             <i class="fa-solid fa-chevron-right"></i>
           </button>
           <div class="flex justify-center gap-2 mt-4" id="modalIndicators">
-            ${projectImages.map((_, idx) => `
-              <button class="modal-indicator w-2 h-2 rounded-full ${idx === 0 ? 'bg-primary' : 'bg-gray-500'}" data-index="${idx}"></button>
-            `).join('')}
+            ${projectImages
+              .map(
+                (_, idx) => `
+              <button class="modal-indicator w-2 h-2 rounded-full ${
+                idx === 0 ? "bg-primary" : "bg-gray-500"
+              }" data-index="${idx}"></button>
+            `
+              )
+              .join("")}
           </div>
-        ` : ''}
+        `
+            : ""
+        }
       </div>
 
       <!-- Project Title -->
@@ -365,7 +381,8 @@ function initModalCarousel() {
     const newPrevBtn = modalPrevBtn.cloneNode(true);
     modalPrevBtn.parentNode.replaceChild(newPrevBtn, modalPrevBtn);
     newPrevBtn.addEventListener("click", () => {
-      modalImageIndex = (modalImageIndex - 1 + projectImages.length) % projectImages.length;
+      modalImageIndex =
+        (modalImageIndex - 1 + projectImages.length) % projectImages.length;
       updateModalCarousel();
     });
   }
